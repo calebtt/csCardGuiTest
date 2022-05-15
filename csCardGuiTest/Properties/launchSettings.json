@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "csCardGuiTest": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\caleb\\source\\repos\\csCardGuiTest\\csCardGuiTest\\gamedirvirtual",
+      "hotReloadEnabled": false
+    }
+  }
+}
