@@ -11,7 +11,7 @@ namespace csBasicDeck
     /// </summary>
     public class PokerFiveCard
     {
-        private const int HAND_SIZE = 5;
+        private readonly int HAND_SIZE;
         private const string ERR_HAND_SIZE = "Exception in PokerFiveCard: List<Card> hand param arg has wrong number of elements!";
 
         private void CheckArgSize(List<Card> hand)
@@ -23,12 +23,21 @@ namespace csBasicDeck
         }
 
         /// <summary>
+        /// Constructor, needs to know the number of cards in a hand.
+        /// </summary>
+        /// <param name="handSize">Num cards in a hand</param>
+        public PokerFiveCard(int handSize)
+        {
+            HAND_SIZE = handSize;
+        }
+
+        /// <summary>
         /// The highest type of straight flush, A-K-Q-J-10 of a suit, is known as a Royal Flush.
         /// </summary>
         public bool IsRoyalFlush(List<Card> hand)
         {
             CheckArgSize(hand);
-            if (!IsFlush(hand)) 
+            if (!IsFlush(hand))
                 return false;
             //make copy and sort, do test for flush
             List<Card> local = GetSortedCopy(hand);
@@ -53,9 +62,9 @@ namespace csBasicDeck
                 return false;
             List<Card> sorted = GetSortedCopy(hand);
             //adjacent elements must be exactly 1 value from each other
-            for (int i = 0; i < hand.Count-1; i++)
+            for (int i = 0; i < hand.Count - 1; i++)
             {
-                int diff = sorted[i+1].IntegerValue - sorted[i].IntegerValue;
+                int diff = sorted[i + 1].IntegerValue - sorted[i].IntegerValue;
                 if (diff != 1)
                     return false;
             }

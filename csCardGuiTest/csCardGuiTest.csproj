@@ -6,12 +6,19 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="gamedirvirtual\**" />
     <EmbeddedResource Remove="gamedirvirtual\**" />
     <None Remove="gamedirvirtual\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="irrKlang.NET4">
+      <HintPath>irrklanglib\irrKlang.NET4.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
