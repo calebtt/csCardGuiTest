@@ -148,6 +148,7 @@ namespace csCardGuiTest
                 if (c is CardPictureBox {IsRevealed: false} pb) 
                     pb.RevealCard();
             }
+            WinCheckHands();
         }
 
         /// <summary> Event handler for play/pause button click, pauses or resumes playing the music. </summary>
@@ -261,6 +262,7 @@ namespace csCardGuiTest
             //reset game
             if (isGameScoredAlready)
             {
+                CardPictureBox.BuildNewDeck();
                 ClearCards();
                 BuildCards();
                 AssignCardbacks();
