@@ -16,6 +16,33 @@ namespace csCardGuiTest
         {
             InitializeComponent();
             ChooseCardbackSetting();
+            BuildCards();
+            //assign cardbacks and hide or reveal
+            foreach (Control c in pnlOpponentCards.Controls)
+            {
+                if (c is CardPictureBox cpb)
+                {
+                    cpb.CardbackResourceName = chosenCardback;
+                    cpb.RevealCard();
+                }
+            }
+            foreach (Control c in pnlPlayerCards.Controls)
+            {
+                if (c is CardPictureBox cpb)
+                {
+                    cpb.CardbackResourceName = chosenCardback;
+                    cpb.HideCard();
+                }
+
+            }
+            RevealOpponentCards();
+            LoadMusicFiles();
+            AddWinCheckCallbacks();
+        }
+
+        /// <summary> Builds the cards used to play the game. </summary>
+        private void BuildCards()
+        {
             //build opponent cards
             for (int i = 0; i < OtherSettings.NumCardsInHand; i++)
             {
@@ -28,6 +55,7 @@ namespace csCardGuiTest
                     Margin = new(100)
                 });
             }
+
             //build player cards
             for (int i = 0; i < OtherSettings.NumCardsInHand; i++)
             {
@@ -40,34 +68,13 @@ namespace csCardGuiTest
                     Margin = new(100)
                 });
             }
-            //assign cardbacks and hide or reveal
-            foreach (Control c in pnlOpponentCards.Controls)
-            {
-                if (c is CardPictureBox cpb)
-                {
-                    AssignCardbacks(pnlOpponentCards.Controls);
-                    cpb.RevealCard();
-                }
-            }
-            foreach (Control c in pnlPlayerCards.Controls)
-            {
-                if (c is CardPictureBox cpb)
-                {
-                    AssignCardbacks(pnlPlayerCards.Controls);
-                    cpb.HideCard();
-                }
-
-            }
-            RevealOpponentCards();
-            LoadMusicFiles();
-            AddWinCheckCallbacks();
         }
 
-        /// <summary> Adds callbacks to each card on the form to check for all
+        /// <summary> Adds callbacks to each card on the container to check for all
         /// cards visible and time for scoring. </summary>
         private void AddWinCheckCallbacks()
         {
-            foreach (Control c in this.Controls)
+            foreach (Control c in pnlPlayerCards.Controls)
                 if (c is CardPictureBox pb)
                     pb.OnClickCheckCustomEvent += (sender, args) => WinCheckHands();
         }

@@ -148,7 +148,7 @@ namespace csCardGuiTest
                 this.RevealCard();
             }
             //invoke our callback event
-            OnClickCheckCustomEvent.Invoke(this, e);
+            OnClickCheckCustomEvent?.Invoke(this, e);
         }
     }
 }
