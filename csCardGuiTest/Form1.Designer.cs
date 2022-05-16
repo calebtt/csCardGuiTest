@@ -37,11 +37,14 @@
             this.tbxAudioInfo = new System.Windows.Forms.TextBox();
             this.trkbrAudioVolume = new System.Windows.Forms.TrackBar();
             this.pnlScoring = new System.Windows.Forms.Panel();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.lblPlayerScore = new System.Windows.Forms.Label();
             this.lblOpponentScore = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlPlayerCards = new System.Windows.Forms.Panel();
             this.pnlOpponentCards = new System.Windows.Forms.Panel();
+            this.btnPlayAgain = new System.Windows.Forms.Button();
             this.grpbxAudioControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkbrAudioVolume)).BeginInit();
             this.pnlScoring.SuspendLayout();
@@ -51,7 +54,7 @@
             // 
             this.lblRevealCardsMessage.AutoSize = true;
             this.lblRevealCardsMessage.Font = new System.Drawing.Font("Modern No. 20", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblRevealCardsMessage.Location = new System.Drawing.Point(713, 461);
+            this.lblRevealCardsMessage.Location = new System.Drawing.Point(722, 463);
             this.lblRevealCardsMessage.Name = "lblRevealCardsMessage";
             this.lblRevealCardsMessage.Size = new System.Drawing.Size(278, 24);
             this.lblRevealCardsMessage.TabIndex = 4;
@@ -60,7 +63,7 @@
             // btnRevealAll
             // 
             this.btnRevealAll.Font = new System.Drawing.Font("Modern No. 20", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnRevealAll.Location = new System.Drawing.Point(713, 412);
+            this.btnRevealAll.Location = new System.Drawing.Point(732, 412);
             this.btnRevealAll.Name = "btnRevealAll";
             this.btnRevealAll.Size = new System.Drawing.Size(121, 46);
             this.btnRevealAll.TabIndex = 15;
@@ -138,12 +141,30 @@
             // 
             // pnlScoring
             // 
+            this.pnlScoring.Controls.Add(this.listView2);
+            this.pnlScoring.Controls.Add(this.listView1);
             this.pnlScoring.Controls.Add(this.lblPlayerScore);
             this.pnlScoring.Controls.Add(this.lblOpponentScore);
             this.pnlScoring.Location = new System.Drawing.Point(732, 192);
             this.pnlScoring.Name = "pnlScoring";
             this.pnlScoring.Size = new System.Drawing.Size(259, 214);
             this.pnlScoring.TabIndex = 17;
+            // 
+            // listView2
+            // 
+            this.listView2.Location = new System.Drawing.Point(132, 39);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(121, 172);
+            this.listView2.TabIndex = 3;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(6, 39);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(121, 172);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // lblPlayerScore
             // 
@@ -189,12 +210,23 @@
             this.pnlOpponentCards.Size = new System.Drawing.Size(674, 214);
             this.pnlOpponentCards.TabIndex = 20;
             // 
+            // btnPlayAgain
+            // 
+            this.btnPlayAgain.Font = new System.Drawing.Font("Modern No. 20", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnPlayAgain.Location = new System.Drawing.Point(864, 412);
+            this.btnPlayAgain.Name = "btnPlayAgain";
+            this.btnPlayAgain.Size = new System.Drawing.Size(121, 46);
+            this.btnPlayAgain.TabIndex = 21;
+            this.btnPlayAgain.Text = "Play Again";
+            this.btnPlayAgain.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1012, 497);
+            this.Controls.Add(this.btnPlayAgain);
             this.Controls.Add(this.pnlOpponentCards);
             this.Controls.Add(this.pnlPlayerCards);
             this.Controls.Add(this.label1);
@@ -230,5 +262,8 @@
         private Label label1;
         private Panel pnlPlayerCards;
         private Panel pnlOpponentCards;
+        private ListView listView2;
+        private ListView listView1;
+        private Button btnPlayAgain;
     }
 }
