@@ -10,7 +10,7 @@ namespace csCardGuiTest
         private string? chosenCardback;
         private readonly ISoundEngine soundEngine = new();
         private bool isSoundPaused = false;
-        private readonly Size CardSize = new Size(115, 185);
+        private readonly Size CardSize = new Size(135, 185);
         private const int CardLift = 20;
         public Form1()
         {
