@@ -19,6 +19,14 @@ namespace csCardGuiTest
             ChooseCardbackSetting();
             BuildCards();
             //assign cardbacks and hide or reveal
+            AssignCardbacks();
+            LoadMusicFiles();
+            AddWinCheckCallbacks();
+        }
+
+        //assign cardbacks and hide or reveal
+        private void AssignCardbacks()
+        {
             foreach (Control c in pnlOpponentCards.Controls)
             {
                 if (c is CardPictureBox cpb)
@@ -27,6 +35,7 @@ namespace csCardGuiTest
                     cpb.RevealCard();
                 }
             }
+
             foreach (Control c in pnlPlayerCards.Controls)
             {
                 if (c is CardPictureBox cpb)
@@ -34,10 +43,7 @@ namespace csCardGuiTest
                     cpb.CardbackResourceName = chosenCardback;
                     cpb.HideCard();
                 }
-
             }
-            LoadMusicFiles();
-            AddWinCheckCallbacks();
         }
 
         /// <summary> Builds the cards used to play the game. </summary>
@@ -70,6 +76,12 @@ namespace csCardGuiTest
             }
         }
 
+        /// <summary> Clears the cards on the board. </summary>
+        private void ClearCards()
+        {
+            pnlPlayerCards.Controls.Clear();
+            pnlOpponentCards.Controls.Clear();
+        }
         /// <summary> Adds callbacks to each card on the container to check for all
         /// cards visible and time for scoring. </summary>
         private void AddWinCheckCallbacks()
@@ -93,18 +105,6 @@ namespace csCardGuiTest
                 foreach (string s in musicList)
                 {
                     this.tbxAudioInfo.Text += Path.GetFileName(s) + Environment.NewLine;
-                }
-            }
-        }
-
-        /// <summary> Assigns the cardback chosen value in chosenCardback to each CardPictureBox on the main form. </summary>
-        private void AssignCardbacks(System.Windows.Forms.Control.ControlCollection cc)
-        {
-            foreach (Control c in cc)
-            {
-                if (c is CardPictureBox pb)
-                {
-                    pb.CardbackResourceName = chosenCardback ?? String.Empty;
                 }
             }
         }
@@ -142,7 +142,8 @@ namespace csCardGuiTest
         /// <summary> Event handler for the reveal all button's click event. </summary>
         private void btnRevealAll_Click(object sender, EventArgs e)
         {
-            foreach (Control c in this.Controls)
+            WinCheckHands();
+            foreach (Control c in pnlPlayerCards.Controls)
             {
                 if (c is CardPictureBox {IsRevealed: false} pb) 
                     pb.RevealCard();
@@ -253,6 +254,19 @@ namespace csCardGuiTest
         private void RunPlayerWinMessage()
         {
             MessageBox.Show("WINNER! Flush on player cards!", "Flush, takes the game.");
+        }
+
+        private void btnPlayAgain_Click(object sender, EventArgs e)
+        {
+            //reset game
+            if (isGameScoredAlready)
+            {
+                ClearCards();
+                BuildCards();
+                AssignCardbacks();
+                AddWinCheckCallbacks();
+                WinCheckHands();
+            }
         }
     }
 }

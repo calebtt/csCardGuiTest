@@ -219,6 +219,7 @@
             this.btnPlayAgain.TabIndex = 21;
             this.btnPlayAgain.Text = "Play Again";
             this.btnPlayAgain.UseVisualStyleBackColor = true;
+            this.btnPlayAgain.Click += new System.EventHandler(this.btnPlayAgain_Click);
             // 
             // Form1
             // 
