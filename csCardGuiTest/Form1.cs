@@ -4,17 +4,60 @@ using IrrKlang;
 
 namespace csCardGuiTest
 {
-    public partial class MainForm : Form
+    public partial class Form1 : Form
     {
         private const float DefaultMusicVolume = 0.25f;
         private string? chosenCardback;
         private readonly ISoundEngine soundEngine = new();
         private bool isSoundPaused = false;
-        public MainForm()
+        private readonly Size CardSize = new Size(115, 185);
+        private const int CardLift = 20;
+        public Form1()
         {
             InitializeComponent();
             ChooseCardbackSetting();
-            AssignCardbacks();
+            //build opponent cards
+            for (int i = 0; i < OtherSettings.NumCardsInHand; i++)
+            {
+                pnlOpponentCards.Controls.Add(new CardPictureBox()
+                {
+                    Location = new(CardSize.Width * i, CardLift),
+                    Size = CardSize,
+                    Anchor = AnchorStyles.Left,
+                    Padding = new(100),
+                    Margin = new(100)
+                });
+            }
+            //build player cards
+            for (int i = 0; i < OtherSettings.NumCardsInHand; i++)
+            {
+                pnlPlayerCards.Controls.Add(new CardPictureBox()
+                {
+                    Location = new(CardSize.Width * i, CardLift),
+                    Size = CardSize,
+                    Anchor = AnchorStyles.Left,
+                    Padding = new(100),
+                    Margin = new(100)
+                });
+            }
+            //assign cardbacks and hide or reveal
+            foreach (Control c in pnlOpponentCards.Controls)
+            {
+                if (c is CardPictureBox cpb)
+                {
+                    AssignCardbacks(pnlOpponentCards.Controls);
+                    cpb.RevealCard();
+                }
+            }
+            foreach (Control c in pnlPlayerCards.Controls)
+            {
+                if (c is CardPictureBox cpb)
+                {
+                    AssignCardbacks(pnlPlayerCards.Controls);
+                    cpb.HideCard();
+                }
+
+            }
             RevealOpponentCards();
             LoadMusicFiles();
             AddWinCheckCallbacks();
@@ -50,17 +93,17 @@ namespace csCardGuiTest
         /// <summary> Reveals the 5 cards of the opponent's hand to the player. </summary>
         private void RevealOpponentCards()
         {
-            this.cardPictureBox1.RevealCard();
-            this.cardPictureBox2.RevealCard();
-            this.cardPictureBox3.RevealCard();
-            this.cardPictureBox4.RevealCard();
-            this.cardPictureBox5.RevealCard();
+            //this.cardPictureBox1.RevealCard();
+            //this.cardPictureBox2.RevealCard();
+            //this.cardPictureBox3.RevealCard();
+            //this.cardPictureBox4.RevealCard();
+            //this.cardPictureBox5.RevealCard();
         }
 
         /// <summary> Assigns the cardback chosen value in chosenCardback to each CardPictureBox on the main form. </summary>
-        private void AssignCardbacks()
+        private void AssignCardbacks(System.Windows.Forms.Control.ControlCollection cc)
         {
-            foreach (Control c in this.Controls)
+            foreach (Control c in cc)
             {
                 if (c is CardPictureBox pb)
                 {
@@ -118,40 +161,85 @@ namespace csCardGuiTest
 
         private void WinCheckHands()
         {
-            bool areAllRevealed = true;
-            //check for all cards revealed and winner
-            foreach (Control c in this.Controls)
+            //local func for checking if all are revealed
+            bool AreAllRevealed()
             {
-                if (c is CardPictureBox pb)
+                bool b = true;
+                //check for all cards revealed and winner
+                foreach (Control c in this.Controls)
                 {
-                    if (!pb.IsRevealed)
+                    if (c is CardPictureBox pb)
                     {
-                        areAllRevealed = false;
-                        break;
+                        if (!pb.IsRevealed)
+                        {
+                            b = false;
+                            break;
+                        }
                     }
                 }
+                return b;
             }
-            //if all cards are face up, run scoring logic
-            if (areAllRevealed)
-            {
-                PokerFiveCard pfc = new(OtherSettings.NumCardsInHand);
-                //build hands
-                List<Card> opponentCards = new();
-                opponentCards.Add(this.cardPictureBox1.CardElement);
-                opponentCards.Add(this.cardPictureBox2.CardElement);
-                opponentCards.Add(this.cardPictureBox3.CardElement);
-                opponentCards.Add(this.cardPictureBox4.CardElement);
-                opponentCards.Add(this.cardPictureBox5.CardElement);
-                List<Card> playerCards = new();
-                playerCards.Add(this.cardPictureBox6.CardElement);
-                playerCards.Add(this.cardPictureBox7.CardElement);
-                playerCards.Add(this.cardPictureBox8.CardElement);
-                playerCards.Add(this.cardPictureBox9.CardElement);
-                playerCards.Add(this.cardPictureBox10.CardElement);
-                bool isOpponentFlush = pfc.IsFlush(opponentCards);
-                bool isPlayerFlush = pfc.IsFlush(playerCards);
 
-            }
+            bool areAllRevealed = AreAllRevealed();
+            //if all cards are face up, run scoring logic
+            //if (areAllRevealed)
+            //{
+            //    PokerFiveCard pfc = new(OtherSettings.NumCardsInHand);
+            //    BuildHands(out var opponentCards, out var playerCards);
+            //    bool isOpponentFlush = pfc.IsFlush(opponentCards);
+            //    bool isPlayerFlush = pfc.IsFlush(playerCards);
+            //    //check for player scoring a flush, with no opponent flush
+            //    if (isPlayerFlush && !isOpponentFlush)
+            //    {
+            //        RunPlayerWinMessage();
+            //    }
+            //    //tally up the scores otherwise...
+            //    int opponentScore = 0;
+            //    int playerScore = 0;
+            //    foreach (Card opponentCard in opponentCards)
+            //        opponentScore += opponentCard.IntegerValue;
+            //    foreach (Card playerCard in playerCards)
+            //        playerScore += playerCard.IntegerValue;
+            //    if (opponentScore != playerScore)
+            //    {
+            //        Font bigFont = new(FontFamily.GenericMonospace, 26.0f);
+            //        Color oppColor = opponentScore > playerScore ? Color.RebeccaPurple : Color.Black;
+            //        Color playerColor = opponentScore < playerScore ? Color.RebeccaPurple : Color.Black;
+            //        //lsvOpponentScores.Items.Add(opponentScore.ToString());
+            //        //lsvOpponentScores.Items[^1].ForeColor = oppColor; // ^1 is called an index from end expression
+            //        //lsvOpponentScores.Items[^1].Font = bigFont;
+            //        //lsvPlayerScores.Items.Add(playerScore.ToString());
+            //        //lsvPlayerScores.Items[^1].ForeColor = playerColor;
+            //        //lsvPlayerScores.Items[^1].Font = bigFont;
+            //    }
+            //    else
+            //    {
+            //        //we have a tie
+            //        Color bothColor = Color.Gold;
+            //    }
+            //}
+        }
+
+        //private void BuildHands(out List<Card> opponentCards, out List<Card> playerCards)
+        //{
+        //    //build hands
+        //    opponentCards = new();
+        //    opponentCards.Add(this.cardPictureBox1.CardElement);
+        //    opponentCards.Add(this.cardPictureBox2.CardElement);
+        //    opponentCards.Add(this.cardPictureBox3.CardElement);
+        //    opponentCards.Add(this.cardPictureBox4.CardElement);
+        //    opponentCards.Add(this.cardPictureBox5.CardElement);
+        //    playerCards = new();
+        //    playerCards.Add(this.cardPictureBox6.CardElement);
+        //    playerCards.Add(this.cardPictureBox7.CardElement);
+        //    playerCards.Add(this.cardPictureBox8.CardElement);
+        //    playerCards.Add(this.cardPictureBox9.CardElement);
+        //    playerCards.Add(this.cardPictureBox10.CardElement);
+        //}
+
+        private void RunPlayerWinMessage()
+        {
+
         }
     }
 }
